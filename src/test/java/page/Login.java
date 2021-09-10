@@ -15,10 +15,12 @@ public class Login {
     WebElement txtPassword;
     @FindBy(id="SubmitLogin")
     WebElement btnSubmitLogin;
-    @FindBy(xpath = "//*[@id=\"header\"]/div[2]/div/div/nav/div[1]/a/span")
+    @FindBy(className = "account")
     WebElement lblUserName;
     @FindBy(xpath = "//*[@id=\"center_column\"]/div[1]/ol/li")
     WebElement lblAuthError;
+    @FindBy(xpath = "//*[@id=\"center_column\"]/div[1]/ol/li")
+    WebElement lblInvalidEmail;
 
     public Login(WebDriver driver)
     {
@@ -32,18 +34,18 @@ public class Login {
         btnSubmitLogin.click();
         return lblUserName.getText();
     }
-    public String doLoginForNegativeScenario1(String email,String password) throws InterruptedException {
+    public String doLoginForWrongPassword(String email,String password) throws InterruptedException {
         linkLogin.click();
         txtEmail.sendKeys(email);
         txtPassword.sendKeys(password);
         btnSubmitLogin.click();
         return lblAuthError.getText();
     }
-    public String doLoginForNegativeScenario2(String email,String password) throws InterruptedException {
+    public String doLoginForWrongEmail(String email,String password) throws InterruptedException {
         linkLogin.click();
         txtEmail.sendKeys(email);
         txtPassword.sendKeys(password);
         btnSubmitLogin.click();
-        return lblAuthError.getText();
+        return lblInvalidEmail.getText();
     }
 }

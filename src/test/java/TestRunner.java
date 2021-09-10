@@ -31,7 +31,7 @@ public class TestRunner extends Setup {
     }
 
     @Test(enabled = true)
-    public void doLoginForWrongPassword1() throws Exception {
+    public void doLoginForWrongPassword() throws Exception {
         driver.get("http://automationpractice.com");
         objLogin = new Login(driver);
 
@@ -43,12 +43,12 @@ public class TestRunner extends Setup {
         String email = (String) json.get("email");
         String password = (String) json.get("password");
 
-        String authError = objLogin.doLoginForNegativeScenario1(email, password);
+        String authError = objLogin.doLoginForWrongPassword(email, password);
         Assert.assertEquals(authError, "Authentication failed.");
     }
 
     @Test(enabled = true)
-    public void doLoginForWrongPassword2() throws Exception {
+    public void doLoginForInvalidEmail() throws Exception {
         driver.get("http://automationpractice.com");
         objLogin = new Login(driver);
 
@@ -60,7 +60,7 @@ public class TestRunner extends Setup {
         String email = (String) json.get("email");
         String password = (String) json.get("password");
 
-        String authError = objLogin.doLoginForNegativeScenario2(email, password);
-        Assert.assertEquals(authError, "Authentication failed.");
+        String authError = objLogin.doLoginForWrongEmail(email, password);
+        Assert.assertEquals(authError, "Invalid email address.");
     }
 }
