@@ -1,6 +1,7 @@
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import page.Login;
@@ -26,6 +27,7 @@ public class TestRunner extends Setup {
 
         String user =objLogin.doLogin(email, password);
         Assert.assertEquals(user, "Test User");
+        driver.findElement(By.xpath("//a[@class='logout']")).click();
     }
     @Test(enabled = true)
     public void doLoginForWrongPassword1() throws Exception {
