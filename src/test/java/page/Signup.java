@@ -1,13 +1,19 @@
 package page;
 
 
+import Utils.Utils;
+import org.json.simple.JSONObject;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Reporter;
 
-public class SIgnUp {
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Signup {
     WebDriver driver;
     @FindBy(className = "login")
     WebElement linkLogin;
@@ -53,21 +59,35 @@ public class SIgnUp {
     WebElement lblUserName;
     @FindBy(xpath = "//*[@id=\"submitAccount\"]/span")
     WebElement RegisterButton;
+    @FindBy(id = "my-account")
+    WebElement LogOutBtn;
 
 
 
-    public SIgnUp(WebDriver driver) {
+    public Signup(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
-    public String doSignUp (String email,String password) throws InterruptedException {
+    Utils utils;
+    public void doSignUp () throws Exception{
         linkLogin.click();
+        utils=new Utils(driver);
+        String email=utils.generateRandomEmail(100000,999999);
+        Reporter.log(email);
         EmailAddress.sendKeys(email);
         CreateAccountButton.click();
+        JSONObject obj = new JSONObject();
+        obj.put("email",email);
+        obj.put("password","password1234");
+        FileWriter file = new FileWriter("./src/test/resources/user.json");
+        file.write(obj.toJSONString());
+        file.flush();
+        System.out.println(obj);
+
         SelectGender.click();
         FirstName.sendKeys("Moshiur");
         LastName.sendKeys("Rahman");
-        Password.sendKeys(password);
+        Password.sendKeys("password1234");
         Select day = new Select(BDays);
         day.selectByValue("1");
         Select month = new Select(BMonths);
@@ -85,9 +105,8 @@ public class SIgnUp {
         Information.sendKeys("Hlw");
         HomePhone.sendKeys("12334556");
         MobilePhone.sendKeys("01761685266");
-//        Reference.sendKeys("pantopath");
         RegisterButton.click();
 
-        return lblUserName.getText();
+        LogOutBtn.click();
     }
 }
